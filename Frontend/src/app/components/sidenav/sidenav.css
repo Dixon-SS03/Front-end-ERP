@@ -1,0 +1,167 @@
+/* ===== Contenedor del sidenav ===== */
+.sidenav {
+  position: fixed;
+  inset: 0 auto 0 0;        /* top:0; right:auto; bottom:0; left:0 */
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;   /* header arriba, links debajo */
+  background: linear-gradient(180deg, #004b35 0%, #003f2b 100%);
+  color: #e5e8e6;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 2px 0 8px rgba(0,0,0,.15);
+}
+
+/* ===== Encabezado del sidenav (fijo y sin interferencias) ===== */
+.sidenav-header {
+  flex: 0 0 auto;                 /* que no se comprima */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  position: sticky;               /* siempre visible si hay scroll */
+  top: 0;
+  z-index: 2;                     /* por encima de la lista */
+  background: linear-gradient(180deg, #004b35 0%, #003f2b 100%); /* mismo fondo */
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidenav-header .logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #00b894;
+  color: #fff;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.sidenav-header .brand {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;   /* evita que rompa el layout si el texto es largo */
+}
+
+.close-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 0;
+  color: #e5e8e6;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* ===== Contenedor de links ===== */
+.nav-links {
+  flex: 1 1 auto;        /* ocupa el resto del alto */
+  overflow-y: auto;      /* scroll solo en la lista */
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0 12px;       /* respiración lateral */
+}
+
+/* Cada item */
+.nav-links li {
+  margin: 4px 0;
+}
+
+/* Enlaces principales */
+.nav-links a,
+.submenu-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #e5e8e6;
+  font-size: .95rem;
+  transition: background .25s ease, color .25s ease;
+  cursor: pointer;
+}
+
+/* Evitar que los estilos de enlaces afecten al header */
+.sidenav-header a,
+.sidenav-header .submenu-header {
+  all: unset;
+}
+
+/* Iconos */
+.nav-links i {
+  width: 20px;
+  text-align: center;
+  color: #d9dedc;
+  font-size: 1rem;
+}
+
+/* Hover / activo */
+.nav-links a:hover,
+.submenu-header:hover {
+  background: rgba(255,255,255,.08);
+}
+
+.nav-links a.active {
+  background: rgba(0,184,148,.22);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-links a.active i {
+  color: #00b894;
+}
+
+/* ===== Submenú desplegable ===== */
+.submenu { display: flex; flex-direction: column; }
+
+.submenu-header {
+  user-select: none;
+}
+
+.submenu-items {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 36px;     /* indentado visual */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .3s ease, opacity .25s ease;
+}
+
+.submenu-items.open {
+  max-height: 400px;       /* suficiente para varios ítems */
+  opacity: 1;
+}
+
+.submenu-items a {
+  padding: 8px 10px;
+  font-size: .9rem;
+  color: #cfd8d6;
+  border-radius: 6px;
+}
+
+.submenu-items a:hover {
+  background: rgba(0,184,148,.15);
+  color: #fff;
+}
+
+/* Scrollbar sutil */
+.nav-links::-webkit-scrollbar { width: 6px; }
+.nav-links::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.2);
+  border-radius: 3px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .sidenav { position: relative; width: 100%; height: auto; }
+  .nav-links { padding: 8px 10px; }
+}

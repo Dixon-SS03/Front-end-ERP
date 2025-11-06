@@ -1,0 +1,228 @@
+.asistencia-container {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  color: #111;
+  padding: 20px 40px;
+}
+
+/* ===== Encabezado ===== */
+h2 {
+  color: #000;
+  border-left: 5px solid #004aad;
+  padding-left: 10px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+/* ===== Sección de filtros ===== */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 30px;
+}
+
+.filtros label {
+  font-weight: 500;
+  color: #004aad;
+}
+
+.filtros select,
+.filtros input[type="date"] {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 0.95rem;
+}
+
+.btn-filtrar {
+  background-color: #004aad;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-filtrar:hover {
+  background-color: #002e7d;
+}
+
+/* ===== Registro manual ===== */
+.registro-manual {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px 25px;
+  margin-bottom: 40px;
+}
+
+.registro-manual h3 {
+  color: #004aad;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 20px;
+  align-items: center;
+}
+
+.form-row label {
+  font-weight: 500;
+  color: #111;
+}
+
+select,
+input[type="time"],
+input[type="date"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 0.95rem;
+  color: #111;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+select:focus,
+input[type="time"]:focus,
+input[type="date"]:focus {
+  border-color: #004aad;
+  box-shadow: 0 0 3px rgba(0, 74, 173, 0.2);
+}
+
+.btn-guardar {
+  background-color: #004aad;
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-guardar:hover {
+  background-color: #002e7d;
+  transform: translateY(-2px);
+}
+
+/* ===== Tabla de asistencias ===== */
+.tabla-asistencia h3 {
+  color: #004aad;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.tabla-asistencia table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: #000;
+  color: #fff;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+tr:hover {
+  background-color: #f5f7fb;
+}
+
+/* ===== Botones dentro de tabla ===== */
+td button {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+td button:first-child {
+  background-color: #004aad;
+  color: #fff;
+}
+
+td button:last-child {
+  background-color: #d32f2f;
+  color: #fff;
+}
+
+td button:first-child:hover {
+  background-color: #002e7d;
+}
+
+td button:last-child:hover {
+  background-color: #b71c1c;
+}
+
+/* ===== Etiquetas de estado ===== */
+.estado-presente {
+  background-color: #e6f9f0;
+  color: #1b7f44;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estado-tarde {
+  background-color: #fff4e6;
+  color: #b45309;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.estado-ausente {
+  background-color: #fdecec;
+  color: #9b1c1c;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  .filtros,
+  .registro-manual {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+}

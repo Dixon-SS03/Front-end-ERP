@@ -1,0 +1,108 @@
+<div class="horario-container">
+  <h2>Gestión de Horarios</h2>
+
+  <!-- Botón para expandir el formulario -->
+  <button class="btn-expand" (click)="toggleFormulario()">
+    {{ mostrarFormulario ? 'Ocultar formulario' : 'Asignar nuevo horario' }}
+  </button>
+
+  <!-- Formulario expandible -->
+  <div class="formulario" *ngIf="mostrarFormulario">
+    <h3>Asignar Horario</h3>
+    <div class="form-row">
+      <label>Seleccione usuario:</label>
+      <select [(ngModel)]="usuarioSeleccionado">
+        <option [value]="null">Seleccione...</option>
+        <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
+      </select>
+    </div>
+
+    <!-- Días -->
+    <div class="dias-grid">
+      <button
+        *ngFor="let dia of diasSemana"
+        (click)="toggleDia(dia)"
+        [class.active]="diaSeleccionado(dia)">
+        {{ dia }}
+      </button>
+    </div>
+
+    <!-- Horarios -->
+    <table *ngIf="horariosAsignados.length > 0" class="horario-tabla">
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th>Hora Entrada</th>
+          <th>Hora Salida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let h of horariosAsignados">
+          <td>{{ h.dia }}</td>
+          <td><input type="time" [(ngModel)]="h.horaEntrada" /></td>
+          <td><input type="time" [(ngModel)]="h.horaSalida" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="btn-guardar" (click)="guardarAsignacion()">Guardar</button>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <section class="usuarios-section">
+    <h3>Usuarios Registrados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 🔹 ng-container mantiene el contexto de 'u' -->
+        <ng-container *ngFor="let u of usuarios">
+          <tr>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.rol }}</td>
+            <td>{{ u.estado }}</td>
+            <td>
+              <button (click)="toggleVerHorario(u.id)">
+                {{ usuarioExpandido === u.id ? 'Ocultar' : 'Ver horario' }}
+              </button>
+            </td>
+          </tr>
+
+          <!-- Horarios expandidos -->
+          <tr *ngIf="usuarioExpandido === u.id" class="detalle-row">
+            <td colspan="4">
+              <div *ngIf="u.horarios && u.horarios.length > 0; else sinHorarios">
+                <table class="mini-tabla">
+                  <thead>
+                    <tr>
+                      <th>Día</th>
+                      <th>Entrada</th>
+                      <th>Salida</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let h of u.horarios">
+                      <td>{{ h.dia }}</td>
+                      <td>{{ h.horaEntrada }}</td>
+                      <td>{{ h.horaSalida }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <ng-template #sinHorarios>
+                <p>⚠️ No tiene horarios asignados.</p>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </section>
+</div>

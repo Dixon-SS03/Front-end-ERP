@@ -1,0 +1,127 @@
+<nav class="sidenav">
+  <div class="sidenav-header">
+    <span class="logo">T</span>
+    <span class="brand">ECNOERP</span>
+  </div>
+
+  <ul class="nav-links">
+    <li>
+      <a routerLink="/dashboard" routerLinkActive="active">
+        <i class="fa fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <!-- 🔽 Opción principal con submenú -->
+    <li class="submenu">
+      <div class="submenu-header" (click)="toggleSubmenu('rh')">
+        <i class="fa fa-users"></i>
+        <span>Recursos Humanos</span>
+        <i
+          class="fa"
+          [ngClass]="{ 'fa-chevron-down': !submenuOpen['rh'], 'fa-chevron-up': submenuOpen['rh'] }"
+          style="margin-left:auto"
+        ></i>
+      </div>
+
+      <ul class="submenu-items" [class.open]="submenuOpen['rh']">
+        <li>
+          <a routerLink="/recursos-humanos/usuarios" routerLinkActive="active">
+            <i class="fa fa-user-plus"></i>
+            <span>Usuarios</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/horarios" routerLinkActive="active">
+            <i class="fa fa-list"></i>
+            <span>Horarios</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/asistencias" routerLinkActive="active">
+            <i class="fa fa-id-badge"></i>
+            <span>Asistencias</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- ---------------------------------------------- -->
+
+
+    <li class="submenu">
+      <div class="submenu-header" (click)="toggleSubmenu('rh')">
+        <i class="fa fa-users"></i>
+        <span>Finanzas</span>
+        <i
+          class="fa"
+          [ngClass]="{ 'fa-chevron-down': !submenuOpen['rh'], 'fa-chevron-up': submenuOpen['rh'] }"
+          style="margin-left:auto"
+        ></i>
+      </div>
+
+      <ul class="submenu-items" [class.open]="submenuOpen['rh']">
+        <li>
+          <a routerLink="/recursos-humanos/usuarios/crear" routerLinkActive="active">
+            <i class="fa fa-user-plus"></i>
+            <span>Presupuestos</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/usuarios/lista" routerLinkActive="active">
+            <i class="fa fa-list"></i>
+            <span>Facturas</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
+            <i class="fa fa-id-badge"></i>
+            <span>Nomina</span>
+          </a>
+        </li>
+         <li>
+          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
+            <i class="fa fa-id-badge"></i>
+            <span>Pagos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- 🔹 Otras secciones -->
+   
+    <li class="submenu">
+      <div class="submenu-header" (click)="toggleSubmenu('rh')">
+        <i class="fa fa-users"></i>
+        <span>Inventario</span>
+        <i
+          class="fa"
+          [ngClass]="{ 'fa-chevron-down': !submenuOpen['rh'], 'fa-chevron-up': submenuOpen['rh'] }"
+          style="margin-left:auto"
+        ></i>
+      </div>
+
+      <ul class="submenu-items" [class.open]="submenuOpen['rh']">
+        <li>
+          <a routerLink="/recursos-humanos/usuarios/crear" routerLinkActive="active">
+            <i class="fa fa-user-plus"></i>
+            <span>Productos</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/usuarios/lista" routerLinkActive="active">
+            <i class="fa fa-list"></i>
+            <span>Movimientos</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
+            <i class="fa fa-id-badge"></i>
+            <span>Alertas</span>
+          </a>
+        </li>
+       
+      </ul>
+    </li>
+  </ul>
+</nav>

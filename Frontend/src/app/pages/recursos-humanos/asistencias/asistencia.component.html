@@ -1,0 +1,80 @@
+<div class="asistencia-container">
+  <h2>Control de Asistencia</h2>
+
+  <!-- 🔹 Filtros -->
+  <section class="filtros">
+    <label>Filtrar por usuario:</label>
+    <select [(ngModel)]="usuarioSeleccionado">
+      <option [value]="null">Todos</option>
+      <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
+    </select>
+
+    <label>Fecha:</label>
+    <input type="date" [(ngModel)]="fechaSeleccionada" />
+
+    <button class="btn-filtrar" (click)="filtrarAsistencias()">Filtrar</button>
+  </section>
+
+  <!-- 🔹 Registro manual -->
+  <section class="registro-manual">
+    <h3>Registrar Asistencia</h3>
+
+    <div class="form-row">
+      <label>Empleado:</label>
+      <select [(ngModel)]="empleadoSeleccionado">
+        <option [value]="null">Seleccione...</option>
+        <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
+      </select>
+
+      <label>Tipo de marca:</label>
+      <select [(ngModel)]="tipoMarca">
+        <option value="entrada">Entrada</option>
+        <option value="salida">Salida</option>
+      </select>
+
+      <label>Hora:</label>
+      <input type="time" [(ngModel)]="horaMarca" />
+
+      <button class="btn-guardar" (click)="registrarAsistencia()">Registrar</button>
+    </div>
+  </section>
+
+  <!-- 🔹 Tabla de asistencias -->
+  <section class="tabla-asistencia">
+    <h3>Asistencias Registradas</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Empleado</th>
+          <th>Fecha</th>
+          <th>Hora Entrada</th>
+          <th>Hora Salida</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let a of asistenciasFiltradas">
+          <td>{{ a.usuario }}</td>
+          <td>{{ a.fecha | date: 'shortDate' }}</td>
+          <td>{{ a.horaEntrada || '—' }}</td>
+          <td>{{ a.horaSalida || '—' }}</td>
+          <td>
+            <span [ngClass]="{
+              'estado-presente': a.estado === 'Presente',
+              'estado-tarde': a.estado === 'Tarde',
+              'estado-ausente': a.estado === 'Ausente'
+            }">
+              {{ a.estado }}
+            </span>
+          </td>
+          <td>
+            <button (click)="editarAsistencia(a)">Editar</button>
+            <button (click)="eliminarAsistencia(a)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

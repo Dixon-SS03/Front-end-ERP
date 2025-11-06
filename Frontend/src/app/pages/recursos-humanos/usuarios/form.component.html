@@ -1,0 +1,98 @@
+<div class="crear-container">
+  <h2>Módulo de Control</h2>
+
+  <section class="form-section">
+
+    <form>
+      <!-- 🧍 Datos Personales -->
+      <fieldset>
+        <legend>Datos Personales</legend>
+
+        <div class="form-group">
+          <input type="text" placeholder="Nombre completo" />
+          <input type="email" placeholder="Correo electrónico" />
+          <input type="password" placeholder="Contraseña" />
+          <input type="text" placeholder="Teléfono" />
+          <input type="text" placeholder="Identificación" />
+          <input type="datetime-local" [value]="fechaActual" readonly />
+        </div>
+      </fieldset>
+
+      <!-- 🧾 Roles y Puestos -->
+      <fieldset>
+        <legend>Rol y Puesto</legend>
+
+        <div class="form-group">
+          <select>
+            <option value="">Seleccione Rol</option>
+            <option value="admin">Administrador</option>
+            <option value="usuario">Usuario</option>
+          </select>
+
+          <select>
+            <option value="">Seleccione Estado</option>
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+
+          <select>
+            <option value="">Seleccione Puesto</option>
+            <option value="recursos">Recursos Humanos</option>
+            <option value="finanzas">Finanzas</option>
+            <option value="operaciones">Operaciones</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <!-- 💰 Datos Salariales -->
+      <fieldset>
+        <legend>Información Salarial</legend>
+
+        <div class="form-group">
+          <input type="number" placeholder="Salario Bruto Mensual" />
+        </div>
+      </fieldset>
+
+      <button type="submit">Guardar</button>
+    </form>
+  </section>
+
+  <!-- Tabla -->
+  <section class="table-section">
+  <h3>Usuarios Registrados</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Puesto</th>
+        <th>Fecha Registro</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of listaUsuarios">
+        <td>{{ usuario.Id }}</td>
+        <td>{{ usuario.Nombre }}</td>
+        <td>{{ usuario.Correo }}</td>
+        <td>{{ usuario.Rol }}</td>
+        <td>
+          <span
+            [ngClass]="usuario.Estado === 'activo' ? 'badge-active' : 'badge-inactive'">
+            {{ usuario.Estado | titlecase }}
+          </span>
+        </td>
+        <td>{{ usuario.Puesto }}</td>
+        <td>{{ usuario.FechaRegistro | date:'shortDate' }}</td>
+        <td>
+          <button (click)="editarUsuario(usuario.Id)">Editar</button>
+          <button (click)="eliminarUsuario(usuario.Id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</div>

@@ -1,0 +1,132 @@
+.horario-container {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  color: #111;
+  padding: 20px 40px;
+}
+
+h2 {
+  color: #004aad;
+  border-left: 5px solid #004aad;
+  padding-left: 10px;
+}
+
+.btn-expand {
+  background: #004aad;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+.btn-expand:hover {
+  background: #002e7d;
+}
+
+/* ===== Formulario expandible ===== */
+.formulario {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.form-row select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.dias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dias-grid button {
+  border: 1px solid #004aad;
+  color: #004aad;
+  background: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dias-grid button.active {
+  background: #004aad;
+  color: #fff;
+}
+
+.horario-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.horario-tabla th {
+  background: #004aad;
+  color: #fff;
+  padding: 8px;
+}
+
+.horario-tabla td {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-guardar {
+  background: #004aad;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.btn-guardar:hover {
+  background: #002e7d;
+}
+
+/* ===== Tabla usuarios ===== */
+.usuarios-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usuarios-section th {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+}
+
+.usuarios-section td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.detalle-row {
+  background: #f5f7fb;
+}
+
+.mini-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mini-tabla th {
+  background: #004aad;
+  color: #fff;
+  padding: 6px;
+}
+
+.mini-tabla td {
+  padding: 6px;
+  border-bottom: 1px solid #eee;
+}
