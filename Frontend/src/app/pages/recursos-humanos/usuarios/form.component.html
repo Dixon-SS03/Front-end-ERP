@@ -2,97 +2,128 @@
   <h2>Módulo de Control</h2>
 
   <section class="form-section">
-
-    <form>
-      <!-- 🧍 Datos Personales -->
+    <form (ngSubmit)="onSubmit()" #usuarioForm="ngForm">
       <fieldset>
         <legend>Datos Personales</legend>
 
         <div class="form-group">
-          <input type="text" placeholder="Nombre completo" />
-          <input type="email" placeholder="Correo electrónico" />
-          <input type="password" placeholder="Contraseña" />
-          <input type="text" placeholder="Teléfono" />
-          <input type="text" placeholder="Identificación" />
+          <input
+            type="text"
+            placeholder="Nombre completo"
+            [(ngModel)]="nombre"
+            name="nombre"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Correo electrónico"
+            [(ngModel)]="correo"
+            name="correo"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            [(ngModel)]="contrasena"
+            name="contrasena"
+            required
+          />
+          <input
+            type="text"
+            placeholder="Teléfono"
+            [(ngModel)]="telefono"
+            name="telefono"
+          />
+          <input
+            type="text"
+            placeholder="Identificación"
+            [(ngModel)]="identificacion"
+            name="identificacion"
+          />
           <input type="datetime-local" [value]="fechaActual" readonly />
         </div>
       </fieldset>
 
-      <!-- 🧾 Roles y Puestos -->
       <fieldset>
-        <legend>Rol y Puesto</legend>
+        <legend>Nivel de acceso y Puesto</legend>
 
         <div class="form-group">
-          <select>
-            <option value="">Seleccione Rol</option>
-            <option value="admin">Administrador</option>
-            <option value="usuario">Usuario</option>
-          </select>
+          <select [(ngModel)]="rolId" name="rolId" (change)="onRolChange($event)" required>
+  <option value="">Seleccione Rol</option>
+  <option *ngFor="let r of listaRoles" [value]="r.id">
+    {{ r.nombre }}
+  </option>
+</select>
 
-          <select>
-            <option value="">Seleccione Estado</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-          </select>
+        
 
-          <select>
+          <select
+            [(ngModel)]="puestoId"
+            name="puestoId"
+            (change)="onPuestoChange($event)"
+            required
+          >
             <option value="">Seleccione Puesto</option>
-            <option value="recursos">Recursos Humanos</option>
-            <option value="finanzas">Finanzas</option>
-            <option value="operaciones">Operaciones</option>
+            <option *ngFor="let p of listaPuestos" [value]="p.id">
+              {{ p.nombre }}
+            </option>
           </select>
         </div>
       </fieldset>
 
-      <!-- 💰 Datos Salariales -->
       <fieldset>
         <legend>Información Salarial</legend>
 
         <div class="form-group">
-          <input type="number" placeholder="Salario Bruto Mensual" />
+          <input
+            type="text"
+            placeholder="Salario Bruto Mensual"
+            [value]="salario ? ('₡' + salario.toLocaleString('es-CR')) : ''"
+            readonly
+          />
         </div>
       </fieldset>
 
-      <button type="submit">Guardar</button>
+      <button type="submit" [disabled]="usuarioForm.invalid">
+  {{ editMode ? 'Actualizar' : 'Guardar' }}
+</button>
     </form>
   </section>
 
-  <!-- Tabla -->
   <section class="table-section">
-  <h3>Usuarios Registrados</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Correo</th>
-        <th>Rol</th>
-        <th>Estado</th>
-        <th>Puesto</th>
-        <th>Fecha Registro</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let usuario of listaUsuarios">
-        <td>{{ usuario.Id }}</td>
-        <td>{{ usuario.Nombre }}</td>
-        <td>{{ usuario.Correo }}</td>
-        <td>{{ usuario.Rol }}</td>
-        <td>
-          <span
-            [ngClass]="usuario.Estado === 'activo' ? 'badge-active' : 'badge-inactive'">
-            {{ usuario.Estado | titlecase }}
-          </span>
-        </td>
-        <td>{{ usuario.Puesto }}</td>
-        <td>{{ usuario.FechaRegistro | date:'shortDate' }}</td>
-        <td>
-          <button (click)="editarUsuario(usuario.Id)">Editar</button>
-          <button (click)="eliminarUsuario(usuario.Id)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+    <h3>Usuarios Registrados</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Puesto</th>
+          <th>Fecha Registro</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of listaUsuarios">
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.correo }}</td>
+          <td>{{ usuario.rol?.nombre || 'Sin rol' }}</td>
+          <td>
+            <span [ngClass]="usuario.estado ? 'badge-active' : 'badge-inactive'">
+              {{ usuario.estado ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>{{ usuario.datosEmpleado?.puesto?.nombre || 'Sin puesto' }}</td>
+          <td>{{ usuario.fecha_creacion | date : 'shortDate' }}</td>
+          <td>
+            <button (click)="cargarUsuario(usuario)">Editar</button>
+           <button (click)="eliminarUsuario(usuario.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </div>

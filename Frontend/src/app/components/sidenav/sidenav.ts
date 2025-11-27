@@ -1,19 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService, CurrentUser } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidenav',
-  standalone: true, // siempre va antes o después del selector, pero dentro del @Component
-  imports: [CommonModule, RouterLink, RouterLinkActive], // importa lo necesario
-  templateUrl: './sidenav.html', // usa el nombre correcto del archivo
-  styleUrls: ['./sidenav.css'], // debe ser 'styleUrls' en plural
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive],
+  templateUrl: './sidenav.html',
+  styleUrls: ['./sidenav.css'],
 })
-export class SidenavComponent { 
- submenuOpen: Record<string, boolean> = {};
+export class SidenavComponent implements OnInit { 
+  submenuOpen: Record<string, boolean> = {};
+  currentUser: CurrentUser | null = null;
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.currentUser.subscribe(user => {
+      this.currentUser = user;
+    });
+  }
 
   toggleSubmenu(menu: string) {
     this.submenuOpen[menu] = !this.submenuOpen[menu];
   }
 
+  logout() {
+    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+      this.authService.logout();
+    }
+  }
 }

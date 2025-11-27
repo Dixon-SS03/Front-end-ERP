@@ -1,0 +1,207 @@
+<div class="nomina-container">
+  <h2>Gestión de Nóminas</h2>
+
+  <!-- Navegación de vistas -->
+  <div class="vista-tabs">
+    <button 
+      [class.active]="vistaActual === 'todas'" 
+      (click)="cambiarVista('todas')">
+      Todas las Nóminas
+    </button>
+    <button 
+      [class.active]="vistaActual === 'pendientes'" 
+      (click)="cambiarVista('pendientes')">
+      Pendientes de Pago
+    </button>
+    <button 
+      [class.active]="vistaActual === 'pagadas'" 
+      (click)="cambiarVista('pagadas')">
+      Pagadas
+    </button>
+  </div>
+
+  <!-- Formulario de Nómina -->
+  <section class="form-section">
+    <h3>{{ editMode ? 'Editar Nómina' : 'Crear Nueva Nómina' }}</h3>
+    <form (ngSubmit)="onSubmit()" #nominaForm="ngForm">
+      <fieldset>
+        <legend>Información de Nómina</legend>
+        
+        <div class="form-group">
+          <!-- Empleado -->
+          <div class="input-wrapper">
+            <label>Empleado *</label>
+            <select 
+              [(ngModel)]="id_usuario" 
+              name="id_usuario" 
+              required>
+              <option [ngValue]="null">Seleccione un empleado</option>
+              <option *ngFor="let usuario of listaUsuarios" [ngValue]="usuario.id">
+                {{ usuario.nombre }} ({{ usuario.correo }})
+              </option>
+            </select>
+          </div>
+
+          <!-- Periodo Inicio -->
+          <div class="input-wrapper">
+            <label>Periodo Inicio *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="periodo_inicio" 
+              name="periodo_inicio" 
+              required />
+          </div>
+
+          <!-- Periodo Fin -->
+          <div class="input-wrapper">
+            <label>Periodo Fin *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="periodo_fin" 
+              name="periodo_fin" 
+              required />
+          </div>
+
+          <!-- Salario Bruto -->
+          <div class="input-wrapper">
+            <label>Salario Bruto *</label>
+            <input 
+              type="number" 
+              step="0.01"
+              placeholder="0.00" 
+              [(ngModel)]="salario_bruto" 
+              (blur)="calcularDescuentos()"
+              name="salario_bruto" 
+              required />
+          </div>
+
+          <!-- Salario Neto -->
+          <div class="input-wrapper">
+            <label>Salario Neto *</label>
+            <input 
+              type="number" 
+              step="0.01"
+              placeholder="0.00" 
+              [(ngModel)]="salario_neto" 
+              name="salario_neto" 
+              required />
+          </div>
+
+          <!-- Fecha de Pago -->
+          <div class="input-wrapper">
+            <label>Fecha de Pago Programada *</label>
+            <input 
+              type="date" 
+              [(ngModel)]="fecha_pago" 
+              name="fecha_pago" 
+              required />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Botones de acción -->
+      <div class="button-group">
+        <button type="submit" class="btn-primary">
+          {{ editMode ? 'Actualizar' : 'Crear' }} Nómina
+        </button>
+        <button type="button" class="btn-secondary" (click)="limpiarFormulario()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Tabla de Nóminas -->
+  <section class="table-section">
+    <h3>Listado de Nóminas</h3>
+    
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Empleado</th>
+            <th>Periodo</th>
+            <th>Salario Bruto</th>
+            <th>Salario Neto</th>
+            <th>Fecha Pago</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let nomina of listaNominas">
+            <td>{{ nomina.id }}</td>
+            <td>{{ getNombreUsuario(nomina) }}</td>
+            <td>
+              {{ nomina.periodo_Inicio | date:'dd/MM/yyyy' }} - 
+              {{ nomina.periodo_Fin | date:'dd/MM/yyyy' }}
+            </td>
+            <td>${{ nomina.salario_Bruto | number:'1.2-2' }}</td>
+            <td>${{ nomina.salario_Neto | number:'1.2-2' }}</td>
+            <td>{{ nomina.fecha_Pago | date:'dd/MM/yyyy' }}</td>
+            <td class="action-buttons">
+              <button 
+                class="btn-edit" 
+                (click)="editarNomina(nomina)"
+                title="Editar">
+                
+              </button>
+              <button 
+                class="btn-delete" 
+                (click)="eliminarNomina(nomina.Id)"
+                title="Eliminar">
+                
+              </button>
+              <button 
+                class="btn-pay" 
+                (click)="abrirModalPago(nomina.Id)"
+                title="Procesar Pago"
+                *ngIf="vistaActual !== 'pagadas'">
+                
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="listaNominas.length === 0">
+            <td colspan="7" style="text-align: center; padding: 20px;">
+              No hay nóminas registradas
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+
+<div class="modal-overlay" *ngIf="showPaymentModal" (click)="cerrarModalPago()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Procesar Pago de Nómina</h3>
+    
+    <form (ngSubmit)="procesarPago()">
+      <div class="modal-form-group">
+        <label>Método de Pago *</label>
+        <select [(ngModel)]="metodo_pago" name="metodo_pago" required>
+          <option *ngFor="let metodo of metodoPagoOptions" [value]="metodo">
+            {{ metodo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="modal-form-group">
+        <label>Fecha de Pago (opcional)</label>
+        <input 
+          type="datetime-local" 
+          [(ngModel)]="fecha_pago_custom" 
+          name="fecha_pago_custom" />
+        <small>Si no se especifica, se usa la fecha actual</small>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="submit" class="btn-primary">Confirmar Pago</button>
+        <button type="button" class="btn-secondary" (click)="cerrarModalPago()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

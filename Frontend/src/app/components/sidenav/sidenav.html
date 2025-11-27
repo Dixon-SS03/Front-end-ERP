@@ -6,13 +6,12 @@
 
   <ul class="nav-links">
     <li>
-      <a routerLink="/dashboard" routerLinkActive="active">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <i class="fa fa-home"></i>
         <span>Dashboard</span>
       </a>
     </li>
 
-    <!-- 🔽 Opción principal con submenú -->
     <li class="submenu">
       <div class="submenu-header" (click)="toggleSubmenu('rh')">
         <i class="fa fa-users"></i>
@@ -26,97 +25,95 @@
 
       <ul class="submenu-items" [class.open]="submenuOpen['rh']">
         <li>
-          <a routerLink="/recursos-humanos/usuarios" routerLinkActive="active">
+          <a routerLink="/dashboard/recursos-humanos/usuarios" routerLinkActive="active">
             <i class="fa fa-user-plus"></i>
             <span>Usuarios</span>
           </a>
         </li>
         <li>
-          <a routerLink="/recursos-humanos/horarios" routerLinkActive="active">
+          <a routerLink="/dashboard/recursos-humanos/horarios" routerLinkActive="active">
             <i class="fa fa-list"></i>
             <span>Horarios</span>
           </a>
         </li>
         <li>
-          <a routerLink="/recursos-humanos/asistencias" routerLinkActive="active">
+          <a routerLink="/dashboard/recursos-humanos/asistencias" routerLinkActive="active">
             <i class="fa fa-id-badge"></i>
             <span>Asistencias</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/recursos-humanos/nominas" routerLinkActive="active">
+            <i class="fa fa-money-check-alt"></i>
+            <span>Nóminas</span>
           </a>
         </li>
       </ul>
     </li>
 
-    <!-- ---------------------------------------------- -->
 
 
     <li class="submenu">
-      <div class="submenu-header" (click)="toggleSubmenu('rh')">
-        <i class="fa fa-users"></i>
+      <div class="submenu-header" (click)="toggleSubmenu('finanzas')">
+        <i class="fa fa-dollar"></i>
         <span>Finanzas</span>
         <i
           class="fa"
-          [ngClass]="{ 'fa-chevron-down': !submenuOpen['rh'], 'fa-chevron-up': submenuOpen['rh'] }"
+          [ngClass]="{ 'fa-chevron-down': !submenuOpen['finanzas'], 'fa-chevron-up': submenuOpen['finanzas'] }"
           style="margin-left:auto"
         ></i>
       </div>
 
-      <ul class="submenu-items" [class.open]="submenuOpen['rh']">
+      <ul class="submenu-items" [class.open]="submenuOpen['finanzas']">
         <li>
-          <a routerLink="/recursos-humanos/usuarios/crear" routerLinkActive="active">
-            <i class="fa fa-user-plus"></i>
+          <a routerLink="/dashboard/finanzas/presupuestos" routerLinkActive="active">
+            <i class="fa fa-file-text"></i>
             <span>Presupuestos</span>
           </a>
         </li>
         <li>
-          <a routerLink="/recursos-humanos/usuarios/lista" routerLinkActive="active">
-            <i class="fa fa-list"></i>
+          <a routerLink="/dashboard/finanzas/facturas" routerLinkActive="active">
+            <i class="fa fa-file-invoice"></i>
             <span>Facturas</span>
           </a>
         </li>
-        <li>
-          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
-            <i class="fa fa-id-badge"></i>
-            <span>Nomina</span>
-          </a>
-        </li>
          <li>
-          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
-            <i class="fa fa-id-badge"></i>
+          <a routerLink="/dashboard/finanzas/pagos" routerLinkActive="active">
+            <i class="fa fa-credit-card"></i>
             <span>Pagos</span>
           </a>
         </li>
       </ul>
     </li>
 
-    <!-- 🔹 Otras secciones -->
    
     <li class="submenu">
-      <div class="submenu-header" (click)="toggleSubmenu('rh')">
-        <i class="fa fa-users"></i>
+      <div class="submenu-header" (click)="toggleSubmenu('inventario')">
+        <i class="fa fa-boxes"></i>
         <span>Inventario</span>
         <i
           class="fa"
-          [ngClass]="{ 'fa-chevron-down': !submenuOpen['rh'], 'fa-chevron-up': submenuOpen['rh'] }"
+          [ngClass]="{ 'fa-chevron-down': !submenuOpen['inventario'], 'fa-chevron-up': submenuOpen['inventario'] }"
           style="margin-left:auto"
         ></i>
       </div>
 
-      <ul class="submenu-items" [class.open]="submenuOpen['rh']">
+      <ul class="submenu-items" [class.open]="submenuOpen['inventario']">
         <li>
-          <a routerLink="/recursos-humanos/usuarios/crear" routerLinkActive="active">
-            <i class="fa fa-user-plus"></i>
+          <a routerLink="/dashboard/inventario/productos" routerLinkActive="active">
+            <i class="fa fa-box"></i>
             <span>Productos</span>
           </a>
         </li>
         <li>
-          <a routerLink="/recursos-humanos/usuarios/lista" routerLinkActive="active">
-            <i class="fa fa-list"></i>
+          <a routerLink="/dashboard/inventario/movimientos" routerLinkActive="active">
+            <i class="fa fa-exchange-alt"></i>
             <span>Movimientos</span>
           </a>
         </li>
         <li>
-          <a routerLink="/recursos-humanos/roles" routerLinkActive="active">
-            <i class="fa fa-id-badge"></i>
+          <a routerLink="/dashboard/inventario/alertas" routerLinkActive="active">
+            <i class="fa fa-bell"></i>
             <span>Alertas</span>
           </a>
         </li>
@@ -124,4 +121,20 @@
       </ul>
     </li>
   </ul>
+
+  <div class="sidenav-footer">
+    <div class="user-info" *ngIf="currentUser">
+      <div class="user-avatar">
+        <i class="fa fa-user-circle"></i>
+      </div>
+      <div class="user-details">
+        <span class="user-name">{{ currentUser.nombre }}</span>
+        <span class="user-role">{{ currentUser.role }}</span>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="logout()">
+      <i class="fa fa-sign-out-alt"></i>
+      <span>Cerrar Sesión</span>
+    </button>
+  </div>
 </nav>

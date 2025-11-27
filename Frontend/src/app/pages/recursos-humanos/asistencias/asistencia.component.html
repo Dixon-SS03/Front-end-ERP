@@ -1,7 +1,6 @@
 <div class="asistencia-container">
   <h2>Control de Asistencia</h2>
 
-  <!-- 🔹 Filtros -->
   <section class="filtros">
     <label>Filtrar por usuario:</label>
     <select [(ngModel)]="usuarioSeleccionado">
@@ -15,66 +14,102 @@
     <button class="btn-filtrar" (click)="filtrarAsistencias()">Filtrar</button>
   </section>
 
-  <!-- 🔹 Registro manual -->
   <section class="registro-manual">
     <h3>Registrar Asistencia</h3>
 
     <div class="form-row">
-      <label>Empleado:</label>
-      <select [(ngModel)]="empleadoSeleccionado">
-        <option [value]="null">Seleccione...</option>
-        <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
-      </select>
+      <div class="form-group">
+        <label>Empleado:</label>
+        <select [(ngModel)]="empleadoSeleccionado" (change)="onSelectEmpleado()">
+          <option [value]="null">Seleccione...</option>
+          <option *ngFor="let u of usuarios" [value]="u.id">{{ u.nombre }}</option>
+        </select>
+      </div>
 
-      <label>Tipo de marca:</label>
-      <select [(ngModel)]="tipoMarca">
-        <option value="entrada">Entrada</option>
-        <option value="salida">Salida</option>
-      </select>
+      <div class="form-group">
+        <label>Horario:</label>
+        <select [(ngModel)]="horarioSeleccionado" [disabled]="!empleadoSeleccionado">
+          <option [value]="null">Seleccione horario...</option>
+          <option *ngFor="let h of horariosUsuario" [value]="h.id">
+            {{ h.dia }} — {{ h.horaEntrada }} a {{ h.horaSalida }}
+          </option>
+        </select>
+      </div>
 
-      <label>Hora:</label>
-      <input type="time" [(ngModel)]="horaMarca" />
+      <div class="form-group">
+        <label>Tipo de marca:</label>
+        <select [(ngModel)]="tipoMarca">
+          <option value="entrada">Entrada</option>
+          <option value="salida">Salida</option>
+        </select>
+      </div>
 
-      <button class="btn-guardar" (click)="registrarAsistencia()">Registrar</button>
+      <div class="form-group">
+        <label>Hora:</label>
+        <input type="time" [(ngModel)]="horaMarca" />
+      </div>
+
+      <button class="btn-guardar" (click)="registrarAsistencia()">
+        <i class="fa" [class.fa-sign-in-alt]="tipoMarca === 'entrada'" [class.fa-sign-out-alt]="tipoMarca === 'salida'"></i>
+        Registrar {{ tipoMarca === 'entrada' ? 'Entrada' : 'Salida' }}
+      </button>
     </div>
   </section>
 
-  <!-- 🔹 Tabla de asistencias -->
-  <section class="tabla-asistencia">
-    <h3>Asistencias Registradas</h3>
+<section class="tabla-asistencias">
+  <h3>Historial de Asistencias</h3>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Empleado</th>
-          <th>Fecha</th>
-          <th>Hora Entrada</th>
-          <th>Hora Salida</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let a of asistenciasFiltradas">
-          <td>{{ a.usuario }}</td>
-          <td>{{ a.fecha | date: 'shortDate' }}</td>
-          <td>{{ a.horaEntrada || '—' }}</td>
-          <td>{{ a.horaSalida || '—' }}</td>
-          <td>
-            <span [ngClass]="{
-              'estado-presente': a.estado === 'Presente',
-              'estado-tarde': a.estado === 'Tarde',
-              'estado-ausente': a.estado === 'Ausente'
-            }">
-              {{ a.estado }}
-            </span>
-          </td>
-          <td>
-            <button (click)="editarAsistencia(a)">Editar</button>
-            <button (click)="eliminarAsistencia(a)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
+  <div *ngIf="asistenciasFiltradas.length === 0" class="no-data">
+    <i class="fa fa-inbox"></i>
+    <p>No hay registros de asistencia</p>
+  </div>
+
+  <table *ngIf="asistenciasFiltradas.length > 0">
+    <thead>
+      <tr>
+        <th>Empleado</th>
+        <th>Fecha</th>
+        <th>Hora Entrada</th>
+        <th>Hora Salida</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let asistencia of asistenciasFiltradas">
+        <td>{{ asistencia.usuario }}</td>
+        <td>{{ asistencia.fecha | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <span class="hora-badge entrada" *ngIf="asistencia.horaEntrada">
+            <i class="fa fa-sign-in-alt"></i>
+            {{ formatearHora(asistencia.horaEntrada) }}
+          </span>
+          <span *ngIf="!asistencia.horaEntrada" class="text-muted">—</span>
+        </td>
+        <td>
+          <span class="hora-badge salida" *ngIf="asistencia.horaSalida">
+            <i class="fa fa-sign-out-alt"></i>
+            {{ formatearHora(asistencia.horaSalida) }}
+          </span>
+          <span *ngIf="!asistencia.horaSalida" class="text-muted">Pendiente</span>
+        </td>
+        <td>
+          <span class="estado-badge" 
+                [class.presente]="asistencia.estado === 'Presente'"
+                [class.tarde]="asistencia.estado === 'Tarde'"
+                [class.ausente]="asistencia.estado === 'Ausente'"
+                [class.justificado]="asistencia.estado === 'Justificado'">
+            {{ asistencia.estado }}
+          </span>
+        </td>
+        <td class="acciones">
+          <button class="btn-eliminar" (click)="eliminarAsistencia(asistencia)" title="Eliminar">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
 </div>

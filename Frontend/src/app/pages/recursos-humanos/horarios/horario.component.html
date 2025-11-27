@@ -48,25 +48,21 @@
     <button class="btn-guardar" (click)="guardarAsignacion()">Guardar</button>
   </div>
 
-  <!-- Tabla de usuarios -->
   <section class="usuarios-section">
     <h3>Usuarios Registrados</h3>
     <table>
       <thead>
         <tr>
           <th>Nombre</th>
-          <th>Rol</th>
-          <th>Estado</th>
+          <th>Puesto</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <!-- 🔹 ng-container mantiene el contexto de 'u' -->
         <ng-container *ngFor="let u of usuarios">
           <tr>
             <td>{{ u.nombre }}</td>
-            <td>{{ u.rol }}</td>
-            <td>{{ u.estado }}</td>
+              <td>{{ u.datosEmpleado?.puesto?.nombre || 'Sin puesto' }}</td>
             <td>
               <button (click)="toggleVerHorario(u.id)">
                 {{ usuarioExpandido === u.id ? 'Ocultar' : 'Ver horario' }}
@@ -74,7 +70,6 @@
             </td>
           </tr>
 
-          <!-- Horarios expandidos -->
           <tr *ngIf="usuarioExpandido === u.id" class="detalle-row">
             <td colspan="4">
               <div *ngIf="u.horarios && u.horarios.length > 0; else sinHorarios">
@@ -97,7 +92,7 @@
               </div>
 
               <ng-template #sinHorarios>
-                <p>⚠️ No tiene horarios asignados.</p>
+                <p> No tiene horarios asignados.</p>
               </ng-template>
             </td>
           </tr>

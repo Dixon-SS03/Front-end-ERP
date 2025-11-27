@@ -1,0 +1,135 @@
+<div class="dashboard-ejecutivo">
+  <div class="dashboard-header">
+    <h1>Reportes</h1>
+    <p class="subtitle">Resumen financiero y métricas clave</p>
+  </div>
+
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando datos financieros...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <i class="fa fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button (click)="cargarDatos()" class="btn-retry">
+      <i class="fa fa-refresh"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && metricas" class="dashboard-content">
+    
+    <div class="metrics-grid">
+      <div class="metric-card ingresos">
+        <div class="metric-icon">
+          <i class="fa fa-arrow-up"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Total Ingresos</span>
+          <h2 class="metric-value">{{ formatCurrency(metricas.totalIngresos) }}</h2>
+          <span class="metric-detail">{{ metricas.cantidadFacturas }} facturas</span>
+        </div>
+      </div>
+
+      <div class="metric-card egresos">
+        <div class="metric-icon">
+          <i class="fa fa-arrow-down"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Total Egresos</span>
+          <h2 class="metric-value">{{ formatCurrency(metricas.totalEgresos) }}</h2>
+          <span class="metric-detail">{{ metricas.cantidadPagos }} pagos</span>
+        </div>
+      </div>
+
+      <div class="metric-card balance" [class.positive]="metricas.balance > 0" [class.negative]="metricas.balance < 0">
+        <div class="metric-icon">
+          <i class="fa fa-balance-scale"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Balance</span>
+          <h2 class="metric-value">{{ formatCurrency(metricas.balance) }}</h2>
+          <span class="metric-detail">Mes actual</span>
+        </div>
+      </div>
+
+      <div class="metric-card margen">
+        <div class="metric-icon">
+          <i class="fa fa-percentage"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-label">Margen de Ganancia</span>
+          <h2 class="metric-value">{{ formatPercent(metricas.margenGanancia) }}</h2>
+          <span class="metric-detail">Rentabilidad</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="averages-section">
+      <div class="average-card">
+        <i class="fa fa-calculator"></i>
+        <div>
+          <span class="average-label">Promedio Ingreso</span>
+          <p class="average-value">{{ formatCurrency(metricas.promedioIngreso) }}</p>
+        </div>
+      </div>
+      <div class="average-card">
+        <i class="fa fa-calculator"></i>
+        <div>
+          <span class="average-label">Promedio Egreso</span>
+          <p class="average-value">{{ formatCurrency(metricas.promedioEgreso) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="monthly-analysis">
+      <h3>
+        <i class="fa fa-chart-line"></i>
+        Análisis Últimos 6 Meses
+      </h3>
+      
+      <div *ngIf="analisisMensual.length > 0" class="analysis-grid">
+        <div *ngFor="let periodo of analisisMensual; let i = index" 
+             class="period-card"
+             [class.trend-up]="getTendencia(i) === 'up'"
+             [class.trend-down]="getTendencia(i) === 'down'">
+          <div class="period-header">
+            <h4>{{ periodo.periodo }}</h4>
+            <i class="fa" 
+               [class.fa-arrow-up]="getTendencia(i) === 'up'"
+               [class.fa-arrow-down]="getTendencia(i) === 'down'"
+               [class.fa-minus]="getTendencia(i) === 'neutral'"></i>
+          </div>
+          <div class="period-data">
+            <div class="data-row">
+              <span>Ingresos:</span>
+              <strong class="text-success">{{ formatCurrency(periodo.ingresos) }}</strong>
+            </div>
+            <div class="data-row">
+              <span>Egresos:</span>
+              <strong class="text-danger">{{ formatCurrency(periodo.egresos) }}</strong>
+            </div>
+            <div class="data-row balance-row">
+              <span>Balance:</span>
+              <strong [class.text-success]="periodo.balance > 0" 
+                      [class.text-danger]="periodo.balance < 0">
+                {{ formatCurrency(periodo.balance) }}
+              </strong>
+            </div>
+            <div class="data-row">
+              <span>Margen:</span>
+              <span class="badge">{{ formatPercent(periodo.margenGanancia) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="analisisMensual.length === 0" class="no-data">
+        <i class="fa fa-inbox"></i>
+        <p>No hay datos disponibles para el análisis mensual</p>
+      </div>
+    </div>
+
+  </div>
+</div>

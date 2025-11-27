@@ -25,7 +25,6 @@ h2 {
   background: #002e7d;
 }
 
-/* ===== Formulario expandible ===== */
 .formulario {
   background: #fafafa;
   border: 1px solid #ddd;
@@ -94,7 +93,6 @@ h2 {
   background: #002e7d;
 }
 
-/* ===== Tabla usuarios ===== */
 .usuarios-section table {
   width: 100%;
   border-collapse: collapse;
