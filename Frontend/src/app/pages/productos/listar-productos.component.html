@@ -1,0 +1,100 @@
+<div class="page-wrapper">
+
+  <div class="header-row">
+    <h2>
+      📦 Productos
+      <span class="badge">{{ productos.length }}</span>
+    </h2>
+    <button class="btn btn-primary" (click)="crearProducto()">
+      ✨ NUEVO PRODUCTO
+    </button>
+  </div>
+
+  <div class="card">
+    <!-- Mensaje de carga -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Cargando productos...</p>
+    </div>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="!loading && error" class="error-container">
+      <div class="error-icon">⚠️</div>
+      <h3>{{ error }}</h3>
+      <button class="btn btn-primary" (click)="cargarProductos()" style="margin-top: 20px;">
+        🔄 Reintentar
+      </button>
+    </div>
+
+    <!-- Mensaje cuando no hay datos -->
+    <div *ngIf="!loading && !error && productos.length === 0" class="empty-container">
+      <div class="empty-icon">📦</div>
+      <h3>No hay productos registrados</h3>
+      <p>Comienza creando tu primer producto</p>
+      <button class="btn btn-primary" (click)="crearProducto()" style="margin-top: 20px;">
+        ➕ Crear Primer Producto
+      </button>
+    </div>
+
+    <!-- Tabla de productos -->
+    <div *ngIf="!loading && !error && productos.length > 0">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th style="width: 80px;">ID</th>
+            <th style="width: 120px;">CÓDIGO</th>
+            <th style="width: 200px;">NOMBRE</th>
+            <th style="width: 150px;">CATEGORÍA</th>
+            <th style="width: 120px;" class="center">PRECIO</th>
+            <th style="width: 100px;" class="center">STOCK</th>
+            <th style="width: 120px;" class="center">ESTADO</th>
+            <th style="width: 220px;" class="center">ACCIONES</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let producto of productos">
+            <td>{{ producto.id }}</td>
+            <td><strong>{{ producto.codigo }}</strong></td>
+            <td>{{ producto.nombre }}</td>
+            <td>
+              <span class="badge-category">
+                {{ getNombreCategoria(producto) }}
+              </span>
+            </td>
+            <td class="center">
+              <strong class="precio">{{ producto.precio | currency:'USD':'symbol':'1.2-2' }}</strong>
+            </td>
+            <td class="center">
+              <span
+                [class.stock-low]="producto.stock < 10"
+                [class.stock-ok]="producto.stock >= 10"
+                class="stock-badge">
+                {{ producto.stock }}
+              </span>
+            </td>
+            <td class="center">
+              <span
+                [class.estado-activo]="producto.estado === 'Activo'"
+                [class.estado-inactivo]="producto.estado !== 'Activo'"
+                class="estado-badge">
+                {{ producto.estado }}
+              </span>
+            </td>
+            <td class="center">
+              <div class="action-buttons">
+                <button class="btn btn-warning" (click)="editarProducto(producto.id)">
+                  ✏️ EDITAR
+                </button>
+                <button class="btn btn-danger" (click)="eliminarProducto(producto.id)">
+                  🗑️ ELIMINAR
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="page-wrapper">
+  <div class="card form-card">
+    <h2 class="form-title">Editar Categoría</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" formControlName="nombre" />
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <input id="descripcion" type="text" formControlName="descripcion" />
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+          Guardar cambios
+        </button>
+
+        <button type="button" class="btn btn-danger" (click)="volver()">
+          Volver
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
