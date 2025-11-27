@@ -52,7 +52,7 @@ export class DashboardEjecutivoComponent implements OnInit {
     if (value === undefined || value === null) return '₡0.00';
     return new Intl.NumberFormat('es-CR', {
       style: 'currency',
-      currency: 'CRC  '
+      currency: 'CRC'
     }).format(value);
   }
 
@@ -63,10 +63,10 @@ export class DashboardEjecutivoComponent implements OnInit {
 
   getTendencia(index: number): string {
     if (index === 0 || !this.analisisMensual[index - 1]) return 'neutral';
-    
+
     const actual = this.analisisMensual[index].balance;
     const anterior = this.analisisMensual[index - 1].balance;
-    
+
     return actual > anterior ? 'up' : actual < anterior ? 'down' : 'neutral';
   }
 }
