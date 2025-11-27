@@ -82,7 +82,7 @@ export class EditarProductoComponent implements OnInit {
           precio: producto.precio,
           stock: producto.stock,
           estado: producto.estado,
-          categoriaId: producto.categoriaId // ← Asegúrate de usar categoriaId
+          id_categoria: producto.id_categoria
         });
 
         console.log('Formulario actualizado:', this.productoForm.value);
@@ -129,7 +129,7 @@ export class EditarProductoComponent implements OnInit {
       precio: Number(this.productoForm.value.precio),
       stock: Number(this.productoForm.value.stock),
       estado: this.productoForm.value.estado,
-      categoriaId: Number(this.productoForm.value.categoriaId)
+      id_categoria: Number(this.productoForm.value.id_categoria)
     };
 
     console.log('Producto a actualizar:', productoActualizado);

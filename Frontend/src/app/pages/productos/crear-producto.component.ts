@@ -76,11 +76,11 @@ export class CrearProductoComponent implements OnInit {
       precio: Number(this.productoForm.value.precio),
       stock: Number(this.productoForm.value.stock),
       estado: this.productoForm.value.estado,
-      categoriaId: Number(this.productoForm.value.categoriaId)
+      id_categoria: Number(this.productoForm.value.id_categoria)
     };
 
     console.log('Producto a enviar:', nuevoProducto);
-    console.log('CategoriaId convertido:', nuevoProducto.categoriaId);
+    console.log('CategoriaId convertido:', nuevoProducto.id_categoria);
     console.log('Categorías disponibles:', this.categorias);
 
     this.productosService.createProducto(nuevoProducto).subscribe({
