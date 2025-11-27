@@ -1,0 +1,271 @@
+/* Estilos Generales */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f4f7fa;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #667eea;
+}
+
+/* Tabla estilo ERP */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  background: white;
+}
+
+.styled-table thead tr {
+  background: #2e7d32;
+  color: white;
+}
+
+.styled-table th {
+  padding: 12px 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.styled-table tbody {
+  background: white;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.15s ease;
+  background: white;
+}
+
+.styled-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.styled-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.styled-table td {
+  padding: 12px 16px;
+  color: #424242;
+  font-size: 14px;
+  vertical-align: middle;
+  background: white;
+}
+
+.styled-table tbody tr:hover td {
+  background: #f1f8e9;
+}
+
+.styled-table td:first-child {
+  font-weight: 600;
+  color: #2e7d32;
+  font-family: 'Courier New', monospace;
+}
+
+/* Botones de acción dentro de la tabla */
+.styled-table button {
+  margin: 0 4px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 4px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: #2e7d32;
+  color: white;
+  padding: 10px 20px;
+  font-size: 13px;
+}
+
+.btn-primary:hover {
+  background: #1b5e20;
+}
+
+.btn-warning {
+  background: #388e3c;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #2e7d32;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c62828;
+}
+
+/* Estructura de la Página */
+.page-wrapper {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header-row h2 {
+  color: #1b5e20;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Contenedores de Carga y Vacío */
+.loading-container,
+.empty-container {
+  text-align: center;
+  padding: 48px 20px;
+  background: white;
+}
+
+.loading-container p {
+  font-size: 14px;
+  color: #388e3c;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #2e7d32;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+.empty-container {
+  color: #66bb6a;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-container h3 {
+  color: #2e7d32;
+  margin: 12px 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.empty-container p {
+  color: #66bb6a;
+  font-size: 14px;
+}
+
+.table-container {
+  background: white;
+  min-height: 400px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Clases de Utilidad */
+.center {
+  text-align: center !important;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #c8e6c9;
+  color: #2e7d32;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 28px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+  border: 1px solid #ddd;
+}

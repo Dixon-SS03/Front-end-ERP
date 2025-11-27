@@ -1,0 +1,61 @@
+<div class="page-wrapper">
+
+  <div class="header-row">
+    <h2>
+      📋 Categorías
+      <span class="badge">{{ categorias.length }}</span>
+    </h2>
+    <button class="btn btn-primary" (click)="crear()">
+      ✨ NUEVA CATEGORÍA
+    </button>
+  </div>
+
+  <div class="card">
+    <!-- Mensaje de carga -->
+    <div *ngIf="cargando" class="loading-container">
+      <div class="spinner"></div>
+      <p>Cargando categorías...</p>
+    </div>
+
+    <!-- Mensaje cuando no hay datos -->
+    <div *ngIf="!cargando && !tieneCategorias" class="empty-container">
+      <div class="empty-icon">📦</div>
+      <h3>No hay categorías registradas</h3>
+      <p>Comienza creando tu primera categoría</p>
+      <button class="btn btn-primary" (click)="crear()" style="margin-top: 20px;">
+        ➕ Crear Primera Categoría
+      </button>
+    </div>
+
+    <!-- Tabla de categorías -->
+    <div *ngIf="!cargando && tieneCategorias">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th style="width: 250px;">NOMBRE</th>
+            <th>DESCRIPCIÓN</th>
+            <th style="width: 220px;" class="center">ACCIONES</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let c of categorias; trackBy: trackByCategoria">
+            <td><strong>{{ c.nombre }}</strong></td>
+            <td>{{ c.descripcion || 'Sin descripción' }}</td>
+            <td class="center">
+              <div class="action-buttons">
+                <button class="btn btn-warning" (click)="editar(c)">
+                  ✏️ EDITAR
+                </button>
+                <button class="btn btn-danger" (click)="eliminar(c)">
+                  🗑️ ELIMINAR
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
