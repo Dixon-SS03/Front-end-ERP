@@ -1,26 +1,52 @@
-<div class="page-wrapper">
-  <div class="card form-card">
-    <h2 class="form-title">Editar Categoría</h2>
+<div class="productos-container">
+  <h2>Editar Categoría</h2>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div *ngIf="loading && !categoriaForm.value.nombre" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando categoría...</p>
+  </div>
 
-      <div class="form-group">
-        <label for="nombre">Nombre</label>
-        <input id="nombre" type="text" formControlName="nombre" />
-      </div>
+  <div *ngIf="!loading || categoriaForm.value.nombre" class="form-section">
+    <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
 
-      <div class="form-group">
-        <label for="descripcion">Descripción</label>
-        <input id="descripcion" type="text" formControlName="descripcion" />
-      </div>
+      <fieldset>
+        <legend>Información de la Categoría</legend>
 
-      <div class="actions">
-        <button type="submit" class="btn btn-success" [disabled]="form.invalid">
-          Guardar cambios
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label for="nombre">Nombre *</label>
+            <input
+              type="text"
+              id="nombre"
+              formControlName="nombre"
+              placeholder="Ej: Tecnología"
+            />
+            <small *ngIf="categoriaForm.get('nombre')?.invalid && categoriaForm.get('nombre')?.touched">
+              El nombre es requerido (mínimo 3 caracteres)
+            </small>
+          </div>
+
+          <div class="input-wrapper">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              formControlName="descripcion"
+              placeholder="Ej: Productos electrónicos y accesorios"
+              rows="3"
+            ></textarea>
+            <small *ngIf="categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched">
+              La descripción debe tener al menos 3 caracteres
+            </small>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="button-group">
+        <button type="submit" class="btn-primary" [disabled]="categoriaForm.invalid || loading">
+          {{ loading ? 'Actualizando...' : '💾 ACTUALIZAR' }}
         </button>
-
-        <button type="button" class="btn btn-danger" (click)="volver()">
-          Volver
+        <button type="button" class="btn-secondary" (click)="volver()" [disabled]="loading">
+          ❌ CANCELAR
         </button>
       </div>
 

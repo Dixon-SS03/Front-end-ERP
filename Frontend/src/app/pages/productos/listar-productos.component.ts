@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductosService } from '../../services/productos.service';
 import { Producto } from '../../shared/models/Producto.model';
-import { Categorias } from '../../shared/models/Categorias.model';
-import { forkJoin } from 'rxjs';
 
 interface ProductoConCategoria extends Producto {
   categoriaNombre?: string;
@@ -32,58 +30,34 @@ export class ListarProductosComponent implements OnInit {
   }
 
   cargarProductos(): void {
-    console.log('Cargando productos...');
+    console.log('🔄 Iniciando carga de productos...');
     this.loading = true;
     this.error = null;
 
     this.productosService.getProductos().subscribe({
-      next: (data: any[]) => {
-        console.log('=== DATOS RECIBIDOS DEL BACKEND ===');
-        console.log('Productos cargados:', data);
-
-        // Mostrar el primer producto completo para ver la estructura
-        if (data.length > 0) {
-          console.log('Primer producto completo:', JSON.stringify(data[0], null, 2));
-        }
+      next: (productos) => {
+        console.log('✅ Productos recibidos del backend:', productos);
 
         // Mapear productos con nombre de categoría
-        this.productos = data.map((producto, index) => {
-          console.log(`Producto ${index}:`, producto.nombre);
-          console.log(`  - categoriaId:`, producto.categoriaId);
-          console.log(`  - categoria:`, producto.categoria);
-          console.log(`  - Categoria:`, producto.Categoria);
-
+        this.productos = productos.map((producto) => {
           let categoriaNombre = 'Sin categoría';
 
-          // Intentar diferentes formas de acceder a la categoría
-          if (producto.categoria && producto.categoria.nombre) {
+          // Intentar obtener el nombre de la categoría
+          if (producto.categoria?.nombre) {
             categoriaNombre = producto.categoria.nombre;
-            console.log(`  ✓ Encontrado en categoria.nombre: ${categoriaNombre}`);
-          } else if (producto.Categoria && producto.Categoria.nombre) {
-            categoriaNombre = producto.Categoria.nombre;
-            console.log(`  ✓ Encontrado en Categoria.nombre: ${categoriaNombre}`);
-          } else if (producto.categoria && producto.categoria.Nombre) {
-            categoriaNombre = producto.categoria.Nombre;
-            console.log(`  ✓ Encontrado en categoria.Nombre: ${categoriaNombre}`);
-          } else if (producto.Categoria && producto.Categoria.Nombre) {
-            categoriaNombre = producto.Categoria.Nombre;
-            console.log(`  ✓ Encontrado en Categoria.Nombre: ${categoriaNombre}`);
-          } else {
-            console.log(`  ✗ No se encontró categoría`);
           }
 
           return {
             ...producto,
-            categoriaNombre: categoriaNombre
+            categoriaNombre
           };
         });
 
-        console.log('=== PRODUCTOS PROCESADOS ===');
-        console.log('Productos finales:', this.productos);
+        console.log('✅ Productos procesados:', this.productos.length);
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error al cargar productos:', err);
+        console.error('❌ Error al cargar productos:', err);
         this.error = 'Error al cargar los productos';
         this.loading = false;
       }
@@ -95,23 +69,23 @@ export class ListarProductosComponent implements OnInit {
   }
 
   editarProducto(id: number): void {
-    console.log('Editando producto:', id);
-    this.router.navigate(['/productos/editar', id]);
+    console.log('✏️ Editando producto:', id);
+    this.router.navigate(['/dashboard/inventario/productos/editar', id]);
   }
 
   eliminarProducto(id: number): void {
     if (confirm('¿Está seguro de eliminar este producto?')) {
-      console.log('Eliminando producto:', id);
+      console.log('🗑️ Eliminando producto:', id);
       this.loading = true;
 
       this.productosService.deleteProducto(id).subscribe({
         next: () => {
-          console.log('Producto eliminado exitosamente');
+          console.log('✅ Producto eliminado');
           alert('Producto eliminado exitosamente');
           this.cargarProductos();
         },
         error: (err) => {
-          console.error('Error al eliminar:', err);
+          console.error('❌ Error al eliminar:', err);
           alert('Error al eliminar el producto');
           this.loading = false;
         }
@@ -120,6 +94,6 @@ export class ListarProductosComponent implements OnInit {
   }
 
   crearProducto(): void {
-    this.router.navigate(['/productos/crear']);
+    this.router.navigate(['/dashboard/inventario/productos/nuevo']);
   }
 }

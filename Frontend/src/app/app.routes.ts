@@ -42,8 +42,7 @@ export const routes: Routes = [
       },
       {
         path: 'inventario/productos/editar/:id',
-        loadComponent: () => import('./pages/productos/editar-producto.component').then(m => m.EditarProductoComponent),
-        runGuardsAndResolvers: 'always'
+        loadComponent: () => import('./pages/productos/editar-producto.component').then(m => m.EditarProductoComponent)
       },
 
       // Rutas de Inventario - Categorías
@@ -52,13 +51,12 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/categorias/listar-categorias').then(m => m.ListarCategoriasComponent)
       },
       {
-        path: 'inventario/categorias/nueva',
+        path: 'inventario/categorias/nuevo',
         loadComponent: () => import('./pages/categorias/crear-categoria.component').then(m => m.CrearCategoriaComponent)
       },
       {
         path: 'inventario/categorias/editar/:id',
-        loadComponent: () => import('./pages/categorias/editar-categoria.component').then(m => m.EditarCategoriaComponent),
-        runGuardsAndResolvers: 'always'
+        loadComponent: () => import('./pages/categorias/editar-categoria.component').then(m => m.EditarCategoriaComponent)
       },
     ],
   },

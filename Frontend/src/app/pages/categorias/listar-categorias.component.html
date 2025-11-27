@@ -2,33 +2,42 @@
 
   <div class="header-row">
     <h2>
-      📋 Categorías
+      📁 Categorías
       <span class="badge">{{ categorias.length }}</span>
     </h2>
-    <button class="btn btn-primary" (click)="crear()">
+    <button class="btn btn-primary" (click)="crearCategoria()">
       ✨ NUEVA CATEGORÍA
     </button>
   </div>
 
   <div class="card">
     <!-- Mensaje de carga -->
-    <div *ngIf="cargando" class="loading-container">
+    <div *ngIf="loading" class="loading-container">
       <div class="spinner"></div>
       <p>Cargando categorías...</p>
     </div>
 
+    <!-- Mensaje de error -->
+    <div *ngIf="!loading && error" class="error-container">
+      <div class="error-icon">⚠️</div>
+      <h3>{{ error }}</h3>
+      <button class="btn btn-primary" (click)="cargarCategorias()" style="margin-top: 20px;">
+        🔄 Reintentar
+      </button>
+    </div>
+
     <!-- Mensaje cuando no hay datos -->
-    <div *ngIf="!cargando && !tieneCategorias" class="empty-container">
-      <div class="empty-icon">📦</div>
+    <div *ngIf="!loading && !error && categorias.length === 0" class="empty-container">
+      <div class="empty-icon">📁</div>
       <h3>No hay categorías registradas</h3>
       <p>Comienza creando tu primera categoría</p>
-      <button class="btn btn-primary" (click)="crear()" style="margin-top: 20px;">
+      <button class="btn btn-primary" (click)="crearCategoria()" style="margin-top: 20px;">
         ➕ Crear Primera Categoría
       </button>
     </div>
 
     <!-- Tabla de categorías -->
-    <div *ngIf="!cargando && tieneCategorias">
+    <div *ngIf="!loading && !error && categorias.length > 0">
       <table class="styled-table">
         <thead>
           <tr>
@@ -39,15 +48,15 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let c of categorias; trackBy: trackByCategoria">
-            <td><strong>{{ c.nombre }}</strong></td>
-            <td>{{ c.descripcion || 'Sin descripción' }}</td>
+          <tr *ngFor="let categoria of categorias">
+            <td><strong>{{ categoria.nombre }}</strong></td>
+            <td>{{ categoria.descripcion || 'Sin descripción' }}</td>
             <td class="center">
               <div class="action-buttons">
-                <button class="btn btn-warning" (click)="editar(c)">
+                <button class="btn btn-warning" (click)="editarCategoria(categoria.id)">
                   ✏️ EDITAR
                 </button>
-                <button class="btn btn-danger" (click)="eliminar(c)">
+                <button class="btn btn-danger" (click)="eliminarCategoria(categoria.id, categoria.nombre)">
                   🗑️ ELIMINAR
                 </button>
               </div>

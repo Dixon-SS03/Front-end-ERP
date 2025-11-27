@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoriasService } from '../../services/categorias.service';
-import { Categorias} from '../../shared/models/Categorias.model';
+import { Categorias } from '../../shared/models/Categorias.model';
 
 @Component({
   selector: 'app-editar-categoria',
@@ -13,10 +13,9 @@ import { Categorias} from '../../shared/models/Categorias.model';
   styleUrls: ['./editar-categoria.component.css']
 })
 export class EditarCategoriaComponent implements OnInit {
-  form: FormGroup;
-  categoriaId!: number;
+  categoriaForm: FormGroup;
   loading = false;
-  error: string | null = null;
+  categoriaId!: number;
 
   constructor(
     private fb: FormBuilder,
@@ -24,63 +23,76 @@ export class EditarCategoriaComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    this.form = this.fb.group({
+    this.categoriaForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
-      descripcion: ['']
+      descripcion: ['', Validators.minLength(3)]
     });
   }
 
   ngOnInit(): void {
     this.categoriaId = Number(this.route.snapshot.paramMap.get('id'));
+    console.log('📝 Editando categoría ID:', this.categoriaId);
     this.cargarCategoria();
   }
 
   cargarCategoria(): void {
     this.loading = true;
+
     this.categoriasService.getCategoria(this.categoriaId).subscribe({
-      next: (categoria) => {
-        this.form.patchValue({
+      next: (categoria: Categorias) => {
+        console.log('✅ Categoría cargada:', categoria);
+
+        this.categoriaForm.patchValue({
           nombre: categoria.nombre,
-          descripcion: categoria.descripcion
+          descripcion: categoria.descripcion || ''
         });
+
         this.loading = false;
+        console.log('📝 Formulario actualizado:', this.categoriaForm.value);
       },
       error: (err) => {
-        this.error = 'Error al cargar la categoría';
-        console.error('Error:', err);
-        this.loading = false;
+        console.error('❌ Error al cargar categoría:', err);
+        alert('Error al cargar la categoría');
+        this.router.navigate(['/dashboard/inventario/categorias']);
       }
     });
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
-      this.loading = true;
-      this.error = null;
+    console.log('=== SUBMIT EDITAR CATEGORÍA ===');
+    console.log('Formulario válido?', this.categoriaForm.valid);
+    console.log('Valores:', this.categoriaForm.value);
 
-      const categoria: Categorias = {
-        id: this.categoriaId,
-        nombre: this.form.value.nombre,
-        descripcion: this.form.value.descripcion
-      };
-
-      this.categoriasService.updateCategoria(this.categoriaId, categoria).subscribe({
-        next: (response) => {
-          alert('Categoría actualizada exitosamente');
-          this.router.navigate(['/categorias']);
-        },
-        error: (err) => {
-          this.error = 'Error al actualizar la categoría';
-          console.error('Error:', err);
-          this.loading = false;
-        }
-      });
-    } else {
-      this.form.markAllAsTouched();
+    if (this.categoriaForm.invalid) {
+      this.categoriaForm.markAllAsTouched();
+      return;
     }
+
+    this.loading = true;
+
+    const categoriaActualizada: Categorias = {
+      id: this.categoriaId,
+      nombre: this.categoriaForm.value.nombre,
+      descripcion: this.categoriaForm.value.descripcion || ''
+    };
+
+    console.log('📤 Enviando al backend:', categoriaActualizada);
+
+    this.categoriasService.updateCategoria(this.categoriaId, categoriaActualizada).subscribe({
+      next: () => {
+        console.log('✅ Categoría actualizada exitosamente');
+        alert('Categoría actualizada exitosamente');
+        this.router.navigate(['/dashboard/inventario/categorias']);
+      },
+      error: (err) => {
+        console.error('❌ Error al actualizar categoría:', err);
+        alert('Error al actualizar la categoría');
+        this.loading = false;
+      }
+    });
   }
 
   volver(): void {
-    this.router.navigate(['/categorias']);
+    this.router.navigate(['/dashboard/inventario/categorias']);
   }
 }

@@ -13,76 +13,58 @@ import { Categorias } from '../../shared/models/Categorias.model';
 })
 export class ListarCategoriasComponent implements OnInit {
   categorias: Categorias[] = [];
-  cargando = false;
+  loading = false;
+  error: string | null = null;
 
   constructor(
     private categoriasService: CategoriasService,
     private router: Router
-  ) {
-    console.log('Constructor ejecutado');
-  }
+  ) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit ejecutado');
     this.cargarCategorias();
   }
 
   cargarCategorias(): void {
-    console.log('cargando categorias');
-    this.cargando = true;
-    this.categorias = []; // Limpiar array
+    this.loading = true;
+    this.error = null;
 
     this.categoriasService.getCategorias().subscribe({
-      next: (data) => {
-        console.log('Categorías cargadas:', data);
-        console.log('Tipo de data:', typeof data);
-        console.log('Es array?:', Array.isArray(data));
-
-        // Asegurarse de que sea un array
-        this.categorias = Array.isArray(data) ? data : [data];
-        this.cargando = false;
-
-        console.log('Categorías asignadas:', this.categorias);
-        console.log('Length:', this.categorias.length);
+      next: (categorias) => {
+        this.categorias = categorias;
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Error al cargar categorías:', err);
-        alert('Error al cargar las categorías');
-        this.cargando = false;
-        this.categorias = [];
+        console.error('❌ Error al cargar categorías:', err);
+        this.error = 'Error al cargar las categorías';
+        this.loading = false;
       }
     });
   }
 
-  crear(): void {
-    this.router.navigate(['/categorias/crear']);
+  crearCategoria(): void {
+    this.router.navigate(['/dashboard/inventario/categorias/nuevo']);
   }
 
-  editar(categoria: Categorias): void {
-    this.router.navigate(['/categorias/editar', categoria.id]);
+  editarCategoria(id: number): void {
+    this.router.navigate(['/dashboard/inventario/categorias/editar', id]);
   }
 
-  eliminar(categoria: Categorias): void {
-    if (confirm(`¿Está seguro de eliminar la categoría "${categoria.nombre}"?`)) {
-      this.categoriasService.deleteCategoria(categoria.id).subscribe({
+  eliminarCategoria(id: number, nombre: string): void {
+    if (confirm(`¿Está seguro de eliminar la categoría "${nombre}"?`)) {
+      this.loading = true;
+
+      this.categoriasService.deleteCategoria(id).subscribe({
         next: () => {
           alert('Categoría eliminada exitosamente');
           this.cargarCategorias();
         },
         error: (err) => {
-          console.error('Error al eliminar categoría:', err);
+          console.error('❌ Error al eliminar:', err);
           alert('Error al eliminar la categoría');
+          this.loading = false;
         }
       });
     }
-  }
-
-  // Método helper para debugging
-  get tieneCategorias(): boolean {
-    return this.categorias && this.categorias.length > 0;
-  }
-
-  trackByCategoria(index: number, categoria: Categorias): number {
-    return categoria.id;
   }
 }

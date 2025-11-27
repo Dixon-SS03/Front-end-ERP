@@ -7,16 +7,22 @@
       Crear Categoría
     </h2>
 
-    <form [formGroup]="categoriaForm" (ngSubmit)="guardarCategoria()">
+    <form [formGroup]="categoriaForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
         <label for="nombre">Nombre</label>
         <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Tecnología" />
+        <small *ngIf="categoriaForm.get('nombre')?.invalid && categoriaForm.get('nombre')?.touched">
+          El nombre es requerido (mínimo 3 caracteres)
+        </small>
       </div>
 
       <div class="form-group">
         <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" formControlName="descripcion" placeholder="Ej: Productos electrónicos y accesorios"></textarea>
+        <textarea id="descripcion" formControlName="descripcion" placeholder="Ej: Productos electrónicos y accesorios" rows="3"></textarea>
+        <small *ngIf="categoriaForm.get('descripcion')?.invalid && categoriaForm.get('descripcion')?.touched">
+          La descripción debe tener al menos 3 caracteres
+        </small>
       </div>
 
       <div class="actions">

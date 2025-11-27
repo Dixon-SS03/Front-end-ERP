@@ -76,18 +76,18 @@ export class CrearProductoComponent implements OnInit {
       precio: Number(this.productoForm.value.precio),
       stock: Number(this.productoForm.value.stock),
       estado: this.productoForm.value.estado,
-      id_categoria: Number(this.productoForm.value.id_categoria)
+      categoriaId: Number(this.productoForm.value.categoriaId)
     };
 
     console.log('Producto a enviar:', nuevoProducto);
-    console.log('CategoriaId convertido:', nuevoProducto.id_categoria);
+    console.log('CategoriaId convertido:', nuevoProducto.categoriaId);
     console.log('Categorías disponibles:', this.categorias);
 
     this.productosService.createProducto(nuevoProducto).subscribe({
       next: (response) => {
         console.log('✅ Respuesta exitosa:', response);
         alert('Producto creado exitosamente');
-        this.router.navigate(['/productos']);
+        this.router.navigate(['/dashboard/inventario/productos']);
       },
       error: (err) => {
         console.error('❌ Error completo:', err);
@@ -111,6 +111,6 @@ export class CrearProductoComponent implements OnInit {
   }
 
   volver(): void {
-    this.router.navigate(['/productos']);
+    this.router.navigate(['/dashboard/inventario/productos']);
   }
 }

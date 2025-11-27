@@ -1,164 +1,198 @@
-/* Estilos Generales */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f4f7fa;
-  color: #333;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  color: #667eea;
-}
-
-/* Tabla estilo ERP */
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0;
-  background: white;
-}
-
-.styled-table thead tr {
-  background: #2e7d32;
-  color: white;
-}
-
-.styled-table th {
-  padding: 12px 16px;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  text-align: left;
-}
-
-.styled-table tbody {
-  background: white;
-}
-
-.styled-table tbody tr {
-  border-bottom: 1px solid #e0e0e0;
-  transition: background-color 0.15s ease;
-  background: white;
-}
-
-.styled-table tbody tr:hover {
-  background: #f5f5f5;
-}
-
-.styled-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.styled-table td {
-  padding: 12px 16px;
-  color: #424242;
-  font-size: 14px;
-  vertical-align: middle;
-  background: white;
-}
-
-.styled-table tbody tr:hover td {
-  background: #f1f8e9;
-}
-
-.styled-table td:first-child {
-  font-weight: 600;
-  color: #2e7d32;
-  font-family: 'Courier New', monospace;
-}
-
-/* Botones de acción dentro de la tabla */
-.styled-table button {
-  margin: 0 4px;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin: 0 4px;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
-
-.btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-.btn-primary {
-  background: #2e7d32;
-  color: white;
-  padding: 10px 20px;
-  font-size: 13px;
-}
-
-.btn-primary:hover {
-  background: #1b5e20;
-}
-
-.btn-warning {
-  background: #388e3c;
-  color: white;
-}
-
-.btn-warning:hover {
-  background: #2e7d32;
-}
-
-.btn-danger {
-  background: #d32f2f;
-  color: white;
-}
-
-.btn-danger:hover {
-  background: #c62828;
-}
-
-/* Estructura de la Página */
+/* Contenedor Principal */
 .page-wrapper {
-  padding: 24px;
-  background: #f5f5f5;
+  color: #111;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  padding: 20px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
   min-height: 100vh;
 }
 
+.productos-container {
+  color: #111;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  padding: 20px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Encabezado */
+h2 {
+  color: #000;
+  border-left: 5px solid #004aad;
+  padding-left: 10px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+}
+
+h3 {
+  color: #004aad;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Sección de Tabla */
+.table-section {
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 30px;
+}
+
+/* Encabezado de la Tabla */
 .header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
-.header-row h2 {
-  color: #1b5e20;
-  font-size: 24px;
-  font-weight: 600;
+.header-row h3 {
+  color: #2e7d32;
+  font-size: 1.3rem;
   margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  font-weight: 600;
 }
 
-/* Contenedores de Carga y Vacío */
+/* Botón Agregar */
+button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.btn-primary {
+  background-color: #004aad;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #003580;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 74, 173, 0.3);
+}
+
+/* Contenedor de Tabla */
+.table-container {
+  background: white;
+  min-height: 400px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+  background-color: #004aad;
+  color: white;
+}
+
+th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.9rem;
+}
+
+tbody tr:hover {
+  background-color: #f5f9ff;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Botones de Acción */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+}
+
+.btn-edit:hover {
+  background-color: #ffb300;
+  transform: scale(1.1);
+}
+
+.btn-delete {
+  background-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+  transform: scale(1.1);
+}
+
+/* Estados de Carga y Vacío */
 .loading-container,
 .empty-container {
   text-align: center;
@@ -168,14 +202,14 @@ a:hover {
 
 .loading-container p {
   font-size: 14px;
-  color: #388e3c;
+  color: #004aad;
   font-weight: 500;
   margin-top: 12px;
 }
 
 .spinner {
   border: 3px solid #f3f3f3;
-  border-top: 3px solid #2e7d32;
+  border-top: 3px solid #004aad;
   border-radius: 50%;
   width: 36px;
   height: 36px;
@@ -184,7 +218,7 @@ a:hover {
 }
 
 .empty-container {
-  color: #66bb6a;
+  color: #6c757d;
 }
 
 .empty-icon {
@@ -194,23 +228,23 @@ a:hover {
 }
 
 .empty-container h3 {
-  color: #2e7d32;
+  color: #004aad;
   margin: 12px 0;
   font-size: 18px;
   font-weight: 500;
 }
 
 .empty-container p {
-  color: #66bb6a;
+  color: #6c757d;
   font-size: 14px;
 }
 
-.table-container {
-  background: white;
-  min-height: 400px;
+/* Animaciones */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -222,50 +256,38 @@ a:hover {
   }
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+/* Responsive */
+@media (max-width: 768px) {
+  .productos-container {
+    padding: 15px 20px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .header-row {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
   }
-}
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+  .btn-primary {
+    width: 100%;
+  }
 
-/* Clases de Utilidad */
-.center {
-  text-align: center !important;
-}
+  table {
+    font-size: 0.85rem;
+  }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  border-radius: 4px;
-  background: #c8e6c9;
-  color: #2e7d32;
-  font-size: 13px;
-  font-weight: 600;
-  min-width: 28px;
-}
+  th,
+  td {
+    padding: 10px 12px;
+  }
 
-.action-buttons {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-}
+  .action-buttons {
+    flex-direction: column;
+    gap: 4px;
+  }
 
-.card {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  overflow: hidden;
-  border: 1px solid #ddd;
+  .btn-edit,
+  .btn-delete {
+    width: 100%;
+  }
 }

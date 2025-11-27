@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, tap } from "rxjs/operators";
 import { Producto } from "../shared/models/Producto.model";
 import { Categorias } from "../shared/models/Categorias.model";
 
@@ -20,15 +20,28 @@ export class ProductosService {
   constructor(private http: HttpClient) {}
 
   getProductos(): Observable<Producto[]> {
+    console.log('🔍 Solicitando lista de productos con categorías');
     return this.http.get<Producto[]>(this.apiUrl)
       .pipe(
+        tap(productos => {
+          console.log('📦 Productos recibidos:', productos.length);
+          if (productos.length > 0) {
+            console.log('   Primer producto:', productos[0]);
+          }
+        }),
         catchError(this.handleError)
       );
   }
 
   getProducto(id: number): Observable<Producto> {
+    console.log('🔍 Solicitando producto ID:', id);
     return this.http.get<Producto>(`${this.apiUrl}/${id}`)
       .pipe(
+        tap(producto => {
+          console.log('📦 Producto recibido del backend:', producto);
+          console.log('   - categoriaId:', producto.categoriaId);
+          console.log('   - categoria:', producto.categoria);
+        }),
         catchError(this.handleError)
       );
   }
@@ -50,11 +63,15 @@ export class ProductosService {
       );
   }
 
-  updateProducto(id: number, producto: Producto): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, producto, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+  updateProducto(id: number, producto: any): Observable<any> {
+    console.log('🔄 ProductosService.updateProducto()');
+    console.log('ID:', id);
+    console.log('Datos enviados:', producto);
+
+    return this.http.put(`${this.apiUrl}/${id}`, producto).pipe(
+      tap(() => console.log('✅ Respuesta exitosa del servidor')),
+      catchError(this.handleError)
+    );
   }
 
   deleteProducto(id: number): Observable<any> {
