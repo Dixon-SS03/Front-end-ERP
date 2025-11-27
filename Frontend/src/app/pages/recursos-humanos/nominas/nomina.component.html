@@ -3,18 +3,18 @@
 
   <!-- Navegación de vistas -->
   <div class="vista-tabs">
-    <button 
-      [class.active]="vistaActual === 'todas'" 
+    <button
+      [class.active]="vistaActual === 'todas'"
       (click)="cambiarVista('todas')">
       Todas las Nóminas
     </button>
-    <button 
-      [class.active]="vistaActual === 'pendientes'" 
+    <button
+      [class.active]="vistaActual === 'pendientes'"
       (click)="cambiarVista('pendientes')">
       Pendientes de Pago
     </button>
-    <button 
-      [class.active]="vistaActual === 'pagadas'" 
+    <button
+      [class.active]="vistaActual === 'pagadas'"
       (click)="cambiarVista('pagadas')">
       Pagadas
     </button>
@@ -26,14 +26,14 @@
     <form (ngSubmit)="onSubmit()" #nominaForm="ngForm">
       <fieldset>
         <legend>Información de Nómina</legend>
-        
+
         <div class="form-group">
           <!-- Empleado -->
           <div class="input-wrapper">
             <label>Empleado *</label>
-            <select 
-              [(ngModel)]="id_usuario" 
-              name="id_usuario" 
+            <select
+              [(ngModel)]="id_usuario"
+              name="id_usuario"
               required>
               <option [ngValue]="null">Seleccione un empleado</option>
               <option *ngFor="let usuario of listaUsuarios" [ngValue]="usuario.id">
@@ -45,55 +45,55 @@
           <!-- Periodo Inicio -->
           <div class="input-wrapper">
             <label>Periodo Inicio *</label>
-            <input 
-              type="date" 
-              [(ngModel)]="periodo_inicio" 
-              name="periodo_inicio" 
+            <input
+              type="date"
+              [(ngModel)]="periodo_inicio"
+              name="periodo_inicio"
               required />
           </div>
 
           <!-- Periodo Fin -->
           <div class="input-wrapper">
             <label>Periodo Fin *</label>
-            <input 
-              type="date" 
-              [(ngModel)]="periodo_fin" 
-              name="periodo_fin" 
+            <input
+              type="date"
+              [(ngModel)]="periodo_fin"
+              name="periodo_fin"
               required />
           </div>
 
           <!-- Salario Bruto -->
           <div class="input-wrapper">
             <label>Salario Bruto *</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               step="0.01"
-              placeholder="0.00" 
-              [(ngModel)]="salario_bruto" 
+              placeholder="0.00"
+              [(ngModel)]="salario_bruto"
               (blur)="calcularDescuentos()"
-              name="salario_bruto" 
+              name="salario_bruto"
               required />
           </div>
 
           <!-- Salario Neto -->
           <div class="input-wrapper">
             <label>Salario Neto *</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               step="0.01"
-              placeholder="0.00" 
-              [(ngModel)]="salario_neto" 
-              name="salario_neto" 
+              placeholder="0.00"
+              [(ngModel)]="salario_neto"
+              name="salario_neto"
               required />
           </div>
 
           <!-- Fecha de Pago -->
           <div class="input-wrapper">
             <label>Fecha de Pago Programada *</label>
-            <input 
-              type="date" 
-              [(ngModel)]="fecha_pago" 
-              name="fecha_pago" 
+            <input
+              type="date"
+              [(ngModel)]="fecha_pago"
+              name="fecha_pago"
               required />
           </div>
         </div>
@@ -114,7 +114,7 @@
   <!-- Tabla de Nóminas -->
   <section class="table-section">
     <h3>Listado de Nóminas</h3>
-    
+
     <div class="table-wrapper">
       <table>
         <thead>
@@ -133,31 +133,31 @@
             <td>{{ nomina.id }}</td>
             <td>{{ getNombreUsuario(nomina) }}</td>
             <td>
-              {{ nomina.periodo_Inicio | date:'dd/MM/yyyy' }} - 
+              {{ nomina.periodo_Inicio | date:'dd/MM/yyyy' }} -
               {{ nomina.periodo_Fin | date:'dd/MM/yyyy' }}
             </td>
             <td>${{ nomina.salario_Bruto | number:'1.2-2' }}</td>
             <td>${{ nomina.salario_Neto | number:'1.2-2' }}</td>
             <td>{{ nomina.fecha_Pago | date:'dd/MM/yyyy' }}</td>
             <td class="action-buttons">
-              <button 
-                class="btn-edit" 
+              <button
+                class="btn-edit"
                 (click)="editarNomina(nomina)"
                 title="Editar">
-                
+
               </button>
-              <button 
-                class="btn-delete" 
-                (click)="eliminarNomina(nomina.Id)"
+              <button
+                class="btn-delete"
+                (click)="eliminarNomina(nomina.id)"
                 title="Eliminar">
-                
+
               </button>
-              <button 
-                class="btn-pay" 
-                (click)="abrirModalPago(nomina.Id)"
+              <button
+                class="btn-pay"
+                (click)="abrirModalPago(nomina.id)"
                 title="Procesar Pago"
                 *ngIf="vistaActual !== 'pagadas'">
-                
+
               </button>
             </td>
           </tr>
@@ -176,7 +176,7 @@
 <div class="modal-overlay" *ngIf="showPaymentModal" (click)="cerrarModalPago()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <h3>Procesar Pago de Nómina</h3>
-    
+
     <form (ngSubmit)="procesarPago()">
       <div class="modal-form-group">
         <label>Método de Pago *</label>
@@ -189,9 +189,9 @@
 
       <div class="modal-form-group">
         <label>Fecha de Pago (opcional)</label>
-        <input 
-          type="datetime-local" 
-          [(ngModel)]="fecha_pago_custom" 
+        <input
+          type="datetime-local"
+          [(ngModel)]="fecha_pago_custom"
           name="fecha_pago_custom" />
         <small>Si no se especifica, se usa la fecha actual</small>
       </div>
